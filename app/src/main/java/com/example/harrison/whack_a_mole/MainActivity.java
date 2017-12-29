@@ -7,6 +7,12 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
+/*
+ Whack-A-Mole
+ Created by Harrison Turley
+ Please view the README for more information
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     /*ImageButton button1;

@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     public void setUpApp(){
         moleButtons[0] = (ImageButton) findViewById(R.id.moleButton1);
         moleButtons[1] = (ImageButton) findViewById(R.id.moleButton2);

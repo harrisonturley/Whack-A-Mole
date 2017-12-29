@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class PlayGame extends AppCompatActivity {
 
+    // TODO: change to 2 minutes after testing
     private static int timerLengthMillis = 30000;
     private static int timerIntervalMillis = 1000;
 
@@ -32,7 +33,9 @@ public class PlayGame extends AppCompatActivity {
             @Override
             public void onFinish() {
                 // Switch to restart activity
+                // TODO: create intent for switching to restart activity
 
+                
             }
         }.start();
 
@@ -50,5 +53,5 @@ public class PlayGame extends AppCompatActivity {
     // Display score in top right on play screen
 
     // Idea: try using a thread for each button, must ensure it is thread safe
-    // 
+    //
 }

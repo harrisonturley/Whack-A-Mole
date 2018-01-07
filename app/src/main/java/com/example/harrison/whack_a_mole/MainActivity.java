@@ -36,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
 
     int tap_time = 250;
 
+    /**
+     * Purpose: Sets the app to the start screen activity
+     * @param savedInstanceState contains all relevant saved state data, should be null on first start
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

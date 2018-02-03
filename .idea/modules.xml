@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/WhackAMole.iml" filepath="$PROJECT_DIR$/WhackAMole.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Whack-A-Mole.iml" filepath="$PROJECT_DIR$/Whack-A-Mole.iml" />
+      <module fileurl="file://D:\Harrison Turley\AndroidStudioProjects\Whack-A-Mole\WhackAMole.iml" filepath="D:\Harrison Turley\AndroidStudioProjects\Whack-A-Mole\WhackAMole.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

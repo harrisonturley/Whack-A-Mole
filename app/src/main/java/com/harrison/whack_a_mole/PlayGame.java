@@ -24,8 +24,8 @@ public class PlayGame extends AppCompatActivity {
     final static int timerLengthMillis = 30000;
     private static int timerIntervalMillis = 1000;
     private static final int numOfMoles = 9;
-    private static int upperTimerLimit = 2500;
-    private static int lowerTimerLimit = 1500;
+    private static int upperTimerLimit = 500;
+    private static int lowerTimerLimit = 1000;
 
     private ImageButton[] moleButtons = new ImageButton[numOfMoles];
     private ImageButton[] holeButtons = new ImageButton[numOfMoles];
@@ -34,6 +34,7 @@ public class PlayGame extends AppCompatActivity {
     private CountDownTimer[] buttonTimers = new CountDownTimer[numOfMoles];
 
     private static final String timeStringConstant = "Time left: ";
+    private static final String scoreStringConstant = "Score: ";
 
 
 
@@ -45,8 +46,6 @@ public class PlayGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
-
-        ArrayList<Thread> threadList = new ArrayList<Thread>();
 
         //Timer until finished
         new CountDownTimer(timerLengthMillis, timerIntervalMillis){
@@ -61,15 +60,16 @@ public class PlayGame extends AppCompatActivity {
             @Override
             public void onFinish() {
                 // Switch to restart activity
-                // TODO: create intent for switching to restart activity
 
                 Intent switchToRestartIntent = new Intent(PlayGame.this, RestartGame.class);
+                switchToRestartIntent.putExtra("Score", overallScore);
                 startActivity(switchToRestartIntent);
             }
         }.start();
 
+        updateScoreText();
         enableButtonsForGame();
-        //gameLogic();
+        gameLogic();
 
     }
 
@@ -103,7 +103,7 @@ public class PlayGame extends AppCompatActivity {
 
         //Setting the moles to add points when tapped
         for (int index = 0; index < numOfMoles; index++){
-            onClickAddScore(moleButtons[index]);
+            onClickAddScore(moleButtons[index], index);
         }
     }
 
@@ -116,7 +116,12 @@ public class PlayGame extends AppCompatActivity {
     public void onClickSubtractScore(ImageButton buttonToListen){
         buttonToListen.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view){
-                overallScore--;
+                if (overallScore > 0) {
+                    overallScore--;
+                } else {
+                    overallScore = 0;
+                }
+                updateScoreText();
             }
         });
     }
@@ -127,12 +132,47 @@ public class PlayGame extends AppCompatActivity {
      * Purpose: To set an image button to subtract from the global current score each time it is clicked
      * @param buttonToListen is the button to have the click listener set
      */
-    public void onClickAddScore(ImageButton buttonToListen){
+    public void onClickAddScore(ImageButton buttonToListen, int buttonNumber){
+        final int currentButtonIndex = buttonNumber;
+
         buttonToListen.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 overallScore++;
+                updateScoreText();
+
+                //Cancelling the previously created timer
+                buttonTimers[currentButtonIndex].cancel();
+                //Need to disable button for a time here
+                disableMoleButton(currentButtonIndex);
+
+                //Waiting a random amount of time disabled before possibly re-enabling
+                Random randomNumGenerator = new Random();
+                int timerStartTime = randomNumGenerator.nextInt(upperTimerLimit) + lowerTimerLimit;
+                new CountDownTimer(timerStartTime, timerIntervalMillis){
+
+                    @Override
+                    public void onTick(long l) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        isFinished[currentButtonIndex] = true;
+                        restartButton(moleButtons[currentButtonIndex], currentButtonIndex);
+                    }
+                }.start();
             }
         });
+    }
+
+
+
+    /**
+     * Purpose: To update the score counter text whenever the score changes
+     */
+    public void updateScoreText(){
+        TextView scoreText = (TextView) findViewById(R.id.scoreCounter);
+        scoreText.setText(scoreStringConstant + overallScore);
     }
 
 
@@ -141,14 +181,11 @@ public class PlayGame extends AppCompatActivity {
      * @param upperBound is the upper bound of the number generator (exclusive)
      * @return the random boolean generated
      */
-    boolean getRandomTrueFalse(int upperBound, Random randNumGenerator){
+    boolean getRandomTrueFalse(int upperBound){
+        Random randNumGenerator = new Random();
         int randomStatus = randNumGenerator.nextInt(upperBound);
 
-        if (randomStatus == 1){
-            return true;
-        } else {
-            return false;
-        }
+        return randomStatus == 1;
     }
 
 
@@ -166,32 +203,53 @@ public class PlayGame extends AppCompatActivity {
 
         // Setting proper boolean values for buttonStatus and isFinished
         for (int index = 0; index < numOfMoles; index++) {
-
             //Creating 1/3 chance that a button is enabled on start (generating random nums between 0 and 2)
-            buttonStatus[index] = getRandomTrueFalse( 3, getRandomNum);
-
-            final int currentIndex = index;
-            int timerStartTime = getRandomNum.nextInt(upperTimerLimit) + lowerTimerLimit;
-            buttonTimers[index] = new CountDownTimer(timerStartTime, timerIntervalMillis){
-
-                @Override
-                public void onTick(long l) {
-
-                }
-
-                @Override
-                public void onFinish() {
-                    isFinished[currentIndex] = true;
-                    restartButton(moleButtons[currentIndex], currentIndex);
-                }
-            }.start();
-
-            //Set button visibility?
+            restartButton(moleButtons[index], index);
         }
     }
 
 
     public void restartButton(ImageButton button, int buttonNumber){
-        
+
+        Random getRandomNum = new Random();
+        //Creating 1/2 chance that a button is enabled
+        buttonStatus[buttonNumber] = getRandomTrueFalse(2);
+
+        final int currentButtonNumber = buttonNumber;
+        int timerStartTime = getRandomNum.nextInt(upperTimerLimit) + lowerTimerLimit;
+        buttonTimers[buttonNumber] = new CountDownTimer(timerStartTime, timerIntervalMillis){
+
+            @Override
+            public void onTick(long l) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                isFinished[currentButtonNumber] = true;
+                restartButton(moleButtons[currentButtonNumber], currentButtonNumber);
+            }
+        }.start();
+
+        //Set button visibility? Must test for selecting button hidden behind
+        if (buttonStatus[buttonNumber]){
+            enableMoleButton(buttonNumber);
+
+        } else {
+            disableMoleButton(buttonNumber);
+        }
+    }
+
+    public void disableMoleButton(int buttonNumber){
+        moleButtons[buttonNumber].setEnabled(false);
+        moleButtons[buttonNumber].setAlpha(0f);
+        holeButtons[buttonNumber].bringToFront();
+    }
+
+
+    public void enableMoleButton(int buttonNumber){
+        moleButtons[buttonNumber].setEnabled(true);
+        moleButtons[buttonNumber].setAlpha(1f);
+        moleButtons[buttonNumber].bringToFront();
     }
 }

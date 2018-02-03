@@ -1,4 +1,4 @@
-package com.example.harrison.whack_a_mole;
+package com.harrison.whack_a_mole;
 
 import org.junit.Test;
 

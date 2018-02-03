@@ -12,14 +12,16 @@
         android:layout_height="30dp"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/hole2"
-        android:gravity="right" />
+        android:gravity="right"
+        android:text="Test" />
 
     <TextView
         android:id="@+id/scoreCounter"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/hole2"
+        android:layout_toLeftOf="@+id/hole2"
+        android:layout_toStartOf="@+id/hole2"
         android:gravity="left" />
 
     <ImageButton
@@ -42,7 +44,6 @@
         android:layout_toStartOf="@+id/moleButton2"
         android:layout_weight="1"
         android:background="@null"
-        android:onClick="onClickButton"
         android:scaleType="fitCenter"
         app:srcCompat="@mipmap/diglet" />
 
@@ -63,7 +64,6 @@
         android:layout_alignTop="@+id/moleButton1"
         android:layout_centerHorizontal="true"
         android:background="@null"
-        android:onClick="onClickButton"
         android:scaleType="fitCenter"
         app:srcCompat="@mipmap/diglet" />
 
@@ -85,7 +85,6 @@
         android:layout_marginStart="34dp"
         android:layout_toEndOf="@+id/moleButton2"
         android:background="@null"
-        android:onClick="onClickButton"
         android:scaleType="fitCenter"
         app:srcCompat="@mipmap/diglet" />
 
@@ -106,7 +105,6 @@
         android:layout_alignStart="@+id/moleButton1"
         android:layout_centerVertical="true"
         android:background="@null"
-        android:onClick="onClickButton"
         android:scaleType="fitCenter"
         app:srcCompat="@mipmap/diglet" />
 
@@ -127,7 +125,6 @@
         android:layout_alignStart="@+id/moleButton2"
         android:layout_alignTop="@+id/moleButton4"
         android:background="@null"
-        android:onClick="onClickButton"
         android:scaleType="fitCenter"
         app:srcCompat="@mipmap/diglet" />
 
@@ -148,7 +145,6 @@
         android:layout_alignStart="@+id/moleButton3"
         android:layout_alignTop="@+id/moleButton5"
         android:background="@null"
-        android:onClick="onClickButton"
         android:scaleType="fitCenter"
         app:srcCompat="@mipmap/diglet" />
 
@@ -170,7 +166,6 @@
         android:layout_alignStart="@+id/moleButton4"
         android:layout_marginBottom="28dp"
         android:background="@null"
-        android:onClick="onClickButton"
         android:scaleType="fitCenter"
         app:srcCompat="@mipmap/diglet" />
 
@@ -191,7 +186,6 @@
         android:layout_alignStart="@+id/moleButton5"
         android:layout_alignTop="@+id/moleButton7"
         android:background="@null"
-        android:onClick="onClickButton"
         android:scaleType="fitCenter"
         app:srcCompat="@mipmap/diglet" />
 
@@ -212,7 +206,6 @@
         android:layout_alignStart="@+id/moleButton6"
         android:layout_alignTop="@+id/moleButton8"
         android:background="@null"
-        android:onClick="onClickButton"
         android:scaleType="fitCenter"
         app:srcCompat="@mipmap/diglet" />
 

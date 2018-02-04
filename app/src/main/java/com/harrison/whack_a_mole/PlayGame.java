@@ -54,7 +54,8 @@ public class PlayGame extends AppCompatActivity {
             @Override
             public void onTick(long timeLeftMillis) {
                 // Setting the time left text to the current time on each tick of the countdown
-                timeText.setText(timeStringConstant + TimeUnit.MILLISECONDS.toSeconds(timeLeftMillis));
+                String timeTextString = timeStringConstant + TimeUnit.MILLISECONDS.toMinutes(timeLeftMillis) + ":" + TimeUnit.MILLISECONDS.toSeconds(timeLeftMillis);
+                timeText.setText(timeTextString);
             }
 
             @Override
@@ -74,6 +75,9 @@ public class PlayGame extends AppCompatActivity {
     }
 
 
+    /**
+     * Purpose: To fill out the arrays of holes and mole buttons, set holes to subtract points on click, set moles to add points on click
+     */
     public void enableButtonsForGame(){
         //Populating each array of buttons for access elsewhere
         holeButtons[0] = (ImageButton) findViewById(R.id.hole1);
@@ -196,10 +200,10 @@ public class PlayGame extends AppCompatActivity {
     // Display score in top right on play screen
 
 
-
+    /**
+     * Purpose: To set game logic for all 9 mole buttons
+     */
     public void gameLogic(){
-        //Try: Have an array of 9 booleans, and randomly assign them with a num generator (0 or 1 ints)
-        Random getRandomNum = new Random();
 
         // Setting proper boolean values for buttonStatus and isFinished
         for (int index = 0; index < numOfMoles; index++) {
@@ -209,6 +213,11 @@ public class PlayGame extends AppCompatActivity {
     }
 
 
+    /**
+     * Purpose: Sets the individual mole button to appear and disappear at random intervals
+     * @param button is the mole button to be set
+     * @param buttonNumber is the position in the global arrays for the current mole button
+     */
     public void restartButton(ImageButton button, int buttonNumber){
 
         Random getRandomNum = new Random();
@@ -240,6 +249,11 @@ public class PlayGame extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * Purpose: To disable a given button by disabling, setting it's alpha to zero, and bringing the hole to the front
+     * @param buttonNumber is the position in the global arrays for the current button to be disabled
+     */
     public void disableMoleButton(int buttonNumber){
         moleButtons[buttonNumber].setEnabled(false);
         moleButtons[buttonNumber].setAlpha(0f);
@@ -247,9 +261,22 @@ public class PlayGame extends AppCompatActivity {
     }
 
 
+    /**
+     * Purpose: To enable a given button by enabling, setting it's alpha to one, and bringing the mole to the front
+     * @param buttonNumber is the position in the global arrays for the current button to be enabled
+     */
     public void enableMoleButton(int buttonNumber){
         moleButtons[buttonNumber].setEnabled(true);
         moleButtons[buttonNumber].setAlpha(1f);
         moleButtons[buttonNumber].bringToFront();
+    }
+
+
+    /**
+     * Purpose: To override the back button on the device such that only in-app navigation is enabled
+     */
+    @Override
+    public void onBackPressed(){
+        return;
     }
 }

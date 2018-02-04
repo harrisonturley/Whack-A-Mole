@@ -15,8 +15,6 @@ import android.widget.RelativeLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    int tap_time = 250;
-
     /**
      * Purpose: Sets the test to the start screen activity
      * @param savedInstanceState contains all relevant saved state data, should be null on first start
@@ -28,8 +26,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Purpose: To switch from the current activity to the PlayGame activity, by setting this method in a button's onClick attribute
+     * @param v is the view for using with XML attributes
+     */
     public void onStartClick(View v){
         Intent switchToRestartIntent = new Intent(this, PlayGame.class);
         startActivity(switchToRestartIntent);
+    }
+
+
+    /**
+     * Purpose: To override the back button on the device such that only in-app navigation is enabled
+     */
+    @Override
+    public void onBackPressed(){
+        return;
     }
 }

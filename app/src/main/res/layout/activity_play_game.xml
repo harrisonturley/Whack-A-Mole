@@ -3,27 +3,35 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@mipmap/background">
+    android:background="@drawable/background">
 
 
     <TextView
         android:id="@+id/countdownTimer"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/hole2"
+        android:layout_toEndOf="@+id/moleButton1"
         android:gravity="right"
-        android:text="Test" />
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:text="Test"
+        android:textColor="@color/white"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/scoreCounter"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/hole2"
-        android:layout_toStartOf="@+id/hole2"
+        android:layout_toLeftOf="@+id/moleButton3"
+        android:layout_toStartOf="@+id/moleButton3"
         android:gravity="left"
-        android:text="Test" />
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:text="Score: 100"
+        android:textColor="@color/white"
+        android:textSize="24sp" />
 
     <ImageButton
         android:id="@+id/hole1"
@@ -33,7 +41,7 @@
         android:layout_alignTop="@+id/moleButton1"
         android:background="@null"
         android:scaleType="fitCenter"
-        app:srcCompat="@mipmap/mole_hole" />
+        app:srcCompat="@drawable/mole_hole" />
 
     <ImageButton
         android:id="@+id/moleButton1"
@@ -48,7 +56,7 @@
         android:layout_weight="1"
         android:background="@null"
         android:scaleType="fitCenter"
-        app:srcCompat="@mipmap/diglet" />
+        app:srcCompat="@drawable/diglet" />
 
     <ImageButton
         android:id="@+id/hole2"
@@ -58,7 +66,7 @@
         android:layout_centerHorizontal="true"
         android:background="@null"
         android:scaleType="fitCenter"
-        app:srcCompat="@mipmap/mole_hole" />
+        app:srcCompat="@drawable/mole_hole" />
 
     <ImageButton
         android:id="@+id/moleButton2"
@@ -68,13 +76,13 @@
         android:layout_centerHorizontal="true"
         android:background="@null"
         android:scaleType="fitCenter"
-        app:srcCompat="@mipmap/diglet" />
+        app:srcCompat="@drawable/diglet" />
 
     <ImageButton
         android:id="@+id/hole3"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        app:srcCompat="@mipmap/mole_hole"
+        app:srcCompat="@drawable/mole_hole"
         android:layout_alignTop="@+id/moleButton3"
         android:layout_alignStart="@+id/moleButton3"
         android:scaleType="fitCenter"
@@ -89,7 +97,7 @@
         android:layout_toEndOf="@+id/moleButton2"
         android:background="@null"
         android:scaleType="fitCenter"
-        app:srcCompat="@mipmap/diglet" />
+        app:srcCompat="@drawable/diglet" />
 
     <ImageButton
         android:id="@+id/hole4"
@@ -97,7 +105,7 @@
         android:layout_height="75dp"
         android:layout_alignBottom="@+id/moleButton4"
         android:layout_alignStart="@+id/moleButton4"
-        app:srcCompat="@mipmap/mole_hole"
+        app:srcCompat="@drawable/mole_hole"
         android:background="@null"
         android:scaleType="fitCenter"/>
 
@@ -111,7 +119,7 @@
         android:layout_marginBottom="79dp"
         android:background="@null"
         android:scaleType="fitCenter"
-        app:srcCompat="@mipmap/diglet" />
+        app:srcCompat="@drawable/diglet" />
 
     <ImageButton
         android:id="@+id/hole5"
@@ -119,7 +127,7 @@
         android:layout_height="75dp"
         android:layout_alignBottom="@+id/moleButton5"
         android:layout_alignStart="@+id/moleButton5"
-        app:srcCompat="@mipmap/mole_hole"
+        app:srcCompat="@drawable/mole_hole"
         android:background="@null"
         android:scaleType="fitCenter"/>
 
@@ -131,7 +139,7 @@
         android:layout_alignTop="@+id/moleButton4"
         android:background="@null"
         android:scaleType="fitCenter"
-        app:srcCompat="@mipmap/diglet" />
+        app:srcCompat="@drawable/diglet" />
 
     <ImageButton
         android:id="@+id/hole6"
@@ -139,7 +147,7 @@
         android:layout_height="75dp"
         android:layout_alignBottom="@+id/moleButton6"
         android:layout_alignStart="@+id/moleButton6"
-        app:srcCompat="@mipmap/mole_hole"
+        app:srcCompat="@drawable/mole_hole"
         android:background="@null"
         android:scaleType="fitCenter"/>
 
@@ -151,7 +159,7 @@
         android:layout_alignTop="@+id/moleButton5"
         android:background="@null"
         android:scaleType="fitCenter"
-        app:srcCompat="@mipmap/diglet" />
+        app:srcCompat="@drawable/diglet" />
 
     <ImageButton
         android:id="@+id/hole7"
@@ -159,7 +167,7 @@
         android:layout_height="75dp"
         android:layout_alignBottom="@+id/moleButton7"
         android:layout_alignStart="@+id/moleButton7"
-        app:srcCompat="@mipmap/mole_hole"
+        app:srcCompat="@drawable/mole_hole"
         android:background="@null"
         android:scaleType="fitCenter"/>
 
@@ -172,7 +180,7 @@
         android:layout_marginBottom="28dp"
         android:background="@null"
         android:scaleType="fitCenter"
-        app:srcCompat="@mipmap/diglet" />
+        app:srcCompat="@drawable/diglet" />
 
     <ImageButton
         android:id="@+id/hole8"
@@ -180,7 +188,7 @@
         android:layout_height="75dp"
         android:layout_alignBottom="@+id/moleButton8"
         android:layout_alignStart="@+id/moleButton8"
-        app:srcCompat="@mipmap/mole_hole"
+        app:srcCompat="@drawable/mole_hole"
         android:background="@null"
         android:scaleType="fitCenter"/>
 
@@ -192,7 +200,7 @@
         android:layout_alignTop="@+id/moleButton7"
         android:background="@null"
         android:scaleType="fitCenter"
-        app:srcCompat="@mipmap/diglet" />
+        app:srcCompat="@drawable/diglet" />
 
     <ImageButton
         android:id="@+id/hole9"
@@ -200,7 +208,7 @@
         android:layout_height="75dp"
         android:layout_alignBottom="@+id/moleButton9"
         android:layout_alignStart="@+id/moleButton9"
-        app:srcCompat="@mipmap/mole_hole"
+        app:srcCompat="@drawable/mole_hole"
         android:background="@null"
         android:scaleType="fitCenter"/>
 
@@ -212,7 +220,7 @@
         android:layout_alignTop="@+id/moleButton8"
         android:background="@null"
         android:scaleType="fitCenter"
-        app:srcCompat="@mipmap/diglet" />
+        app:srcCompat="@drawable/diglet" />
 
 
 </RelativeLayout>

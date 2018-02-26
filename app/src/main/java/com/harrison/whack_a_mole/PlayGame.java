@@ -3,38 +3,33 @@ package com.harrison.whack_a_mole;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 public class PlayGame extends AppCompatActivity {
 
-    int overallScore = 0;
+    private int overallScore = 0;
 
-    // TODO: change to 2 minutes after testing
-    final static int timerLengthMillis = 30000;
+    private final static int timerLengthMillis = 30000;
     private static int timerIntervalMillis = 1000;
     private static final int numOfMoles = 9;
     private static int upperTimerLimit = 500;
-    private static int lowerTimerLimit = 1000;
+    private static int lowerTimerLimit = 500;
 
     private ImageButton[] moleButtons = new ImageButton[numOfMoles];
     private ImageButton[] holeButtons = new ImageButton[numOfMoles];
     private final boolean[] buttonStatus = new boolean[numOfMoles];
-    private final boolean[] isFinished = new boolean[numOfMoles];
     private CountDownTimer[] buttonTimers = new CountDownTimer[numOfMoles];
 
     private static final String timeStringConstant = "Time left: ";
     private static final String scoreStringConstant = "Score: ";
+    private static final String scoreIntentConst = "score";
+    private static final String highScoreIntentConst = "highScore";
 
 
 
@@ -47,7 +42,10 @@ public class PlayGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
 
-        //Timer until finished
+        Intent passedIntent = getIntent();
+        final int highScoreValue = passedIntent.getIntExtra(highScoreIntentConst, 0);
+
+        // Timer until finished
         new CountDownTimer(timerLengthMillis, timerIntervalMillis){
             TextView timeText = (TextView) findViewById(R.id.countdownTimer);
 
@@ -55,15 +53,24 @@ public class PlayGame extends AppCompatActivity {
             public void onTick(long timeLeftMillis) {
                 // Setting the time left text to the current time on each tick of the countdown
                 String timeTextString = timeStringConstant + TimeUnit.MILLISECONDS.toMinutes(timeLeftMillis) + ":" + TimeUnit.MILLISECONDS.toSeconds(timeLeftMillis);
+                if (TimeUnit.MILLISECONDS.toSeconds(timeLeftMillis) <= 9){
+                    timeTextString = timeStringConstant + TimeUnit.MILLISECONDS.toMinutes(timeLeftMillis) + ":0" + TimeUnit.MILLISECONDS.toSeconds(timeLeftMillis);
+                }
                 timeText.setText(timeTextString);
             }
 
             @Override
             public void onFinish() {
                 // Switch to restart activity
-
                 Intent switchToRestartIntent = new Intent(PlayGame.this, RestartGame.class);
-                switchToRestartIntent.putExtra("Score", overallScore);
+                switchToRestartIntent.putExtra(scoreIntentConst, overallScore);
+
+                // Set high score value here, depending on previous value
+                if (highScoreValue > overallScore){
+                    switchToRestartIntent.putExtra(highScoreIntentConst, highScoreValue);
+                } else {
+                    switchToRestartIntent.putExtra(highScoreIntentConst, overallScore);
+                }
                 startActivity(switchToRestartIntent);
             }
         }.start();
@@ -100,12 +107,12 @@ public class PlayGame extends AppCompatActivity {
         moleButtons[7] = (ImageButton) findViewById(R.id.moleButton8);
         moleButtons[8] = (ImageButton) findViewById(R.id.moleButton9);
 
-        //Setting the holes to remove points when tapped
+        // Setting the holes to remove points when tapped
         for (int index = 0; index < numOfMoles; index++){
             onClickSubtractScore(holeButtons[index]);
         }
 
-        //Setting the moles to add points when tapped
+        // Setting the moles to add points when tapped
         for (int index = 0; index < numOfMoles; index++){
             onClickAddScore(moleButtons[index], index);
         }
@@ -144,25 +151,22 @@ public class PlayGame extends AppCompatActivity {
                 overallScore++;
                 updateScoreText();
 
-                //Cancelling the previously created timer
+                // Cancelling the previously created timer
                 buttonTimers[currentButtonIndex].cancel();
-                //Need to disable button for a time here
+                // Need to disable button for a time here
                 disableMoleButton(currentButtonIndex);
 
-                //Waiting a random amount of time disabled before possibly re-enabling
+                // Waiting a random amount of time disabled before possibly re-enabling
                 Random randomNumGenerator = new Random();
                 int timerStartTime = randomNumGenerator.nextInt(upperTimerLimit) + lowerTimerLimit;
                 new CountDownTimer(timerStartTime, timerIntervalMillis){
 
                     @Override
-                    public void onTick(long l) {
-
-                    }
+                    public void onTick(long l) { }
 
                     @Override
                     public void onFinish() {
-                        isFinished[currentButtonIndex] = true;
-                        restartButton(moleButtons[currentButtonIndex], currentButtonIndex);
+                        restartButton(currentButtonIndex);
                     }
                 }.start();
             }
@@ -188,16 +192,8 @@ public class PlayGame extends AppCompatActivity {
     boolean getRandomTrueFalse(int upperBound){
         Random randNumGenerator = new Random();
         int randomStatus = randNumGenerator.nextInt(upperBound);
-
         return randomStatus == 1;
     }
-
-
-    // Rules: 2 minutes on the clock
-    // Each tap is +1 on the score
-    // Possible side rule: each miss is a -1? (Min is 0)
-    // After 2 minutes, transition to other screen with score and restart button displayed
-    // Display score in top right on play screen
 
 
     /**
@@ -207,22 +203,22 @@ public class PlayGame extends AppCompatActivity {
 
         // Setting proper boolean values for buttonStatus and isFinished
         for (int index = 0; index < numOfMoles; index++) {
-            //Creating 1/3 chance that a button is enabled on start (generating random nums between 0 and 2)
-            restartButton(moleButtons[index], index);
+            // Creating 1/3 chance that a button is enabled on start (generating random numbers between 0 and 2)
+            restartButton(index);
         }
     }
 
 
     /**
      * Purpose: Sets the individual mole button to appear and disappear at random intervals
-     * @param button is the mole button to be set
      * @param buttonNumber is the position in the global arrays for the current mole button
      */
-    public void restartButton(ImageButton button, int buttonNumber){
+    public void restartButton(int buttonNumber){
 
         Random getRandomNum = new Random();
-        //Creating 1/2 chance that a button is enabled
-        buttonStatus[buttonNumber] = getRandomTrueFalse(2);
+        // Creating 1/2 chance that a button is enabled
+        int chanceTrue = 2;
+        buttonStatus[buttonNumber] = getRandomTrueFalse(chanceTrue);
 
         final int currentButtonNumber = buttonNumber;
         int timerStartTime = getRandomNum.nextInt(upperTimerLimit) + lowerTimerLimit;
@@ -235,12 +231,11 @@ public class PlayGame extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                isFinished[currentButtonNumber] = true;
-                restartButton(moleButtons[currentButtonNumber], currentButtonNumber);
+                restartButton(currentButtonNumber);
             }
         }.start();
 
-        //Set button visibility? Must test for selecting button hidden behind
+        // Set button visibility
         if (buttonStatus[buttonNumber]){
             enableMoleButton(buttonNumber);
 
@@ -276,7 +271,5 @@ public class PlayGame extends AppCompatActivity {
      * Purpose: To override the back button on the device such that only in-app navigation is enabled
      */
     @Override
-    public void onBackPressed(){
-        return;
-    }
+    public void onBackPressed(){}
 }

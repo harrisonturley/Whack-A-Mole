@@ -2,14 +2,16 @@ package com.harrison.whack_a_mole;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
 public class RestartGame extends AppCompatActivity {
+
+    private int highScoreValue = 0;
+
+    private static final String scoreIntentConst = "score";
+    private static final String highScoreIntentConst = "highScore";
 
     /**
      * Purpose: To set up the restart screen with required information
@@ -19,17 +21,23 @@ public class RestartGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restart_game);
-
         Intent passedIntent = getIntent();
-        int scoreValue = passedIntent.getIntExtra("Score", 0);
 
+        // Getting the stored score value from the intent
+        int scoreValue = passedIntent.getIntExtra(scoreIntentConst, 0);
+        highScoreValue = passedIntent.getIntExtra(highScoreIntentConst, 0);
+
+        //Getting each text view for the score and high score fields
         TextView scoreText = (TextView) findViewById(R.id.lastScore);
         TextView highScore = (TextView) findViewById(R.id.highScore);
 
+        //Setting the string for the score field
         String scoreString = getResources().getString(R.string.score) + " " + scoreValue;
         scoreText.setText(scoreString);
 
-        // TODO: integrate high score text once Firebase has been implemented
+        //Setting the string for the high score field
+        String highScoreString = "High Score:" + " " + highScoreValue;
+        highScore.setText(highScoreString);
     }
 
 
@@ -39,6 +47,7 @@ public class RestartGame extends AppCompatActivity {
      */
     public void onClick(View v){
         Intent switchIntent = new Intent(this, PlayGame.class);
+        switchIntent.putExtra(highScoreIntentConst, highScoreValue);
         startActivity(switchIntent);
     }
 
@@ -47,8 +56,6 @@ public class RestartGame extends AppCompatActivity {
      * Purpose: To override the back button on the device such that only in-app navigation is enabled
      */
     @Override
-    public void onBackPressed(){
-        return;
-    }
+    public void onBackPressed(){ }
 
 }

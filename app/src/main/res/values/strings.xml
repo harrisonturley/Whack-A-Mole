@@ -6,4 +6,6 @@
     <string name="play_again">Play again?</string>
     <string name="score">Score: </string>
     <string name="high_score">High Score: </string>
+    <string name="scoreVar">score</string>
+    <string name="highScoreVar">highScore</string>
 </resources>
